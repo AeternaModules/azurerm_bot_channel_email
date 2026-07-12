@@ -8,16 +8,24 @@ Required:
     - resource_group_name
 Optional:
     - email_password
+    - email_password_key_vault_id (alternative to email_password - read from Key Vault instead)
+    - email_password_key_vault_secret_name (alternative to email_password - read from Key Vault instead)
     - magic_code
+    - magic_code_key_vault_id (alternative to magic_code - read from Key Vault instead)
+    - magic_code_key_vault_secret_name (alternative to magic_code - read from Key Vault instead)
 EOT
 
   type = map(object({
-    bot_name            = string
-    email_address       = string
-    location            = string
-    resource_group_name = string
-    email_password      = optional(string)
-    magic_code          = optional(string)
+    bot_name                             = string
+    email_address                        = string
+    location                             = string
+    resource_group_name                  = string
+    email_password                       = optional(string)
+    email_password_key_vault_id          = optional(string)
+    email_password_key_vault_secret_name = optional(string)
+    magic_code                           = optional(string)
+    magic_code_key_vault_id              = optional(string)
+    magic_code_key_vault_secret_name     = optional(string)
   }))
   validation {
     condition = alltrue([
