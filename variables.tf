@@ -27,38 +27,6 @@ EOT
     magic_code_key_vault_id              = optional(string)
     magic_code_key_vault_secret_name     = optional(string)
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.bot_channel_emails : (
-        length(v.bot_name) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.bot_channel_emails : (
-        length(v.email_address) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.bot_channel_emails : (
-        v.email_password == null || (length(v.email_password) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.bot_channel_emails : (
-        v.magic_code == null || (length(v.magic_code) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_bot_channel_email's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
@@ -79,5 +47,17 @@ EOT
   #   source:    [from resourcegroups.ValidateName] !matched
   # path: location
   #   source:    location.EnhancedValidate: no recognizable `if ... { errors = append(...) }` pattern - read it by hand
+  # path: bot_name
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: email_address
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: email_password
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: magic_code
+  #   condition: length(value) > 0
+  #   message:   must not be empty
 }
 
